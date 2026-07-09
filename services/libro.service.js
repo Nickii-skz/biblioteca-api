@@ -1,18 +1,35 @@
-const libroModel =require('../models/libro.model');
+const Libro=require('../models/Libro');
+const lib = require('pg-hstore');
+
 
 exports.getAll=async()=>{
-    return await libroModel.getAll();
-};
+    return await Libro.findAll();
+}
 exports.getById=async(id)=>{
-    return await libroModel.getById(id);
+    return await Libro.findByPk(id);
 }
 
 exports.create=async(libro)=>{
-    return await libroModel.create(libro);
+    return await Libro.create(libro);
 }
-exports.update=async(id,libro)=>{
-    return await libroModel.update(id,libro);
+
+exports.update=async(id,datoLibro)=>{
+   const libro=await Libro.findByPk(id);
+   if(!libro){
+    return null;
+   }
+   libro.titulo=datoLibro.titulo;
+   libro.autor=datoLibro.autor;
+   libro.anio=datoLibro.anio;
+   await libro.save();
+   return libro;
+
 }
 exports.delete=async(id)=>{
-    return await libroModel.delete(id);
+    const libro=await Libro.findByPk(id);
+    if(!libro){
+        return null;
+    }
+    await libro.destroy();
+    return libro;
 }

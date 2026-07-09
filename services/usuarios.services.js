@@ -1,24 +1,35 @@
-const usuarioModel = require('../models/usuarios.models');
-const usuario=require('../models/Usuarios');
-/*exports.getAll = async ()=>{
-    return await usuarioModel.getAll();
-};*/
+const Usuario=require('../models/Usuarios');
+const lib = require('pg-hstore');
+
 
 exports.getAll = async ()=>{
-    return await usuario.findAll();
+    return await Usuario.findAll();
 };
 exports.getById = async (id)=>{
-    return await usuario.findByPk(id);
+    return await Usuario.findByPk(id);
 };
 
 exports.create = async(usuario)=>{
-return await usuarioModel.create(usuario);
+return await Usuario.create(usuario);
 };
 
-exports.update = async (id, usuario) => {
-    return await usuarioModel.update(id, usuario);
+
+exports.update = async (id, dataUsuario) => {
+    const usuario=await Usuario.findByPk(id);
+    if(!usuario){
+        return null;
+    }
+    usuario.nombre=dataUsuario.nombre;
+    usuario.correo=dataUsuario.correo;
+    await usuario.save();
+    return usuario;
 };
 
 exports.delete = async (id) => {
-    return await usuarioModel.delete(id);
+    const usuario=await Usuario.findByPk(id);
+    if(!usuario){
+        return null;
+    }
+    usuario.destroy();
+    return usuario;
 };

@@ -1,4 +1,3 @@
-const sequalize=require('../config/database');
 const Libro=require('../models/Libro');
 async function probar() {
     const libros=await Libro.findAll({
