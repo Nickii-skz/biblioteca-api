@@ -8,8 +8,8 @@ exports.getById = async (id) => {
   return await Rol.findByPk(id);
 };
 
-exports.create = async (rol) => {
-  return await Rol.create(rol);
+exports.create = async (datosRol) => {
+  return await Rol.create(datosRol);
 };
 
 exports.update = async (id, datosRol) => {
